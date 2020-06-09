@@ -1,7 +1,0 @@
-# In this example, @doctocat owns any files in the build/logs
-# directory at the root of the repository and any of its
-# subdirectories.
-api/poi/ @ahmedsza
-api/trips/ @ahms86
-api/user-java/ @ahmedsza
-api/userprofile/ @ahms86
