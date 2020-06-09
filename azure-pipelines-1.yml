@@ -33,7 +33,6 @@ steps:
 
 - script: |
     npm install
-    npm run build
     npm run test
-  displayName: 'npm install and build'
+  displayName: 'npm install and test'
   workingDirectory: 'apis/userprofile'
