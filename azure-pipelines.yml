@@ -36,3 +36,11 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+
+- task: CreateWorkItem@1
+  inputs:
+    teamProject: DevOpsOpenHack
+    workItemType: 'Bug'
+    title: 'Failed build'
+    associate: true
+  condition: failed()
