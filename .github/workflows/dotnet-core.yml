@@ -30,3 +30,12 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
       working-directory: apis/poi/tests/UnitTests
+    - name: Create Issue Action
+      if: success()()
+      uses: nashmaniac/create-issue-action@v1.1
+      with:
+    # Title of the issue
+        title: Issue with build 
+    # Token of the user that creates the issue
+        token: ${{secrets.GITHUB_TOKEN}}
+        body: Workflow failed for commit ${{github.sha}}
