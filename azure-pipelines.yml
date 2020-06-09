@@ -9,7 +9,7 @@ trigger:
     - master
   paths:
     include:
-    - 'apis/user-java/**'
+    - 'apis/user-java/*'
 
   
 # specific branch
@@ -19,7 +19,7 @@ pr:
     - master
   paths:
     include:
-    - 'apis/user-java/**'
+    - 'apis/user-java/*'
 
 
 pool:
