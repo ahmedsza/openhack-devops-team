@@ -36,3 +36,11 @@ steps:
     npm run test
   displayName: 'npm install and test'
   workingDirectory: 'apis/userprofile'
+
+- task: CreateWorkItem@1
+  inputs:
+    teamProject: DevOpsOpenHack
+    workItemType: 'Bug'
+    title: 'Failed build'
+    associate: true
+  condition: failed()
