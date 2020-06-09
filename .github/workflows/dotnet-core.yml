@@ -3,7 +3,7 @@ name: .NET Core
 on:
   push:
     paths: 
-      - "apis/poi"
+      - 'apis/poi/**'
     branches: [ master ]
   pull_request:
     branches: [ master ]
