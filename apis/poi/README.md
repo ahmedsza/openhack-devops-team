@@ -1,7 +1,7 @@
 
 # POI Service
 
-## Overview with change34
+## Overview with change
 
 POI (Trip Points of Interest) - CRUD API written in .Net Core 3.1 for points of interest on trips
 
