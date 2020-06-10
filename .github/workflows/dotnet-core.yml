@@ -42,30 +42,27 @@ jobs:
         
   release:
     runs-on: ubuntu-latest
+    if:  github.ref == 'refs/heads/integration' && github.event_name == 'push' 
     needs: [build]
-    name: "release"
+    name: "deploy to docker registry"
     steps:
     # checkout the repo
     - name: 'Checkout Github Action' 
       uses: actions/checkout@master
+      
     
     
     - uses: azure/docker-login@v1
       with:
-        login-server: contoso.azurecr.io
+        login-server: openhackn82382w0acr.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+      name: "docker login"
     
     - run: |
         docker build . -t openhackn82382w0acr.azurecr.io/api-poi:${{ github.run_id }}
         docker push openhackn82382w0acr.azurecr.io/api-poi:${{ github.run_id}} 
+      name: "docker build and push"
+      working-directory: '/apis/poi/web'
       
-    - uses: azure/webapps-container-deploy@v1
-      with:
-        app-name: 'node-rnc'
-        images: 'contoso.azurecr.io/nodejssampleapp:${{ github.run_id }}'
-    
-    - name: Azure logout
-      run: |
-        az logout
-   
+
