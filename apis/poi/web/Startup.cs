@@ -56,7 +56,7 @@ namespace poi
                 app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-
+            app.UseStaticFiles();
             app.UseRewriter(new RewriteOptions().AddRedirect("(.*)api/docs/poi$", "$1api/docs/poi/index.html"));
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
