@@ -65,4 +65,12 @@ jobs:
       name: "docker build and push"
       working-directory: 'apis/poi/web'
       
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: openhackn82382w0poi
+        slot-name: staging
+        images: 'openhackn82382w0acr.azurecr.io/devopsoh/api-poi:${{ github.run_id }}'
+        publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+      
 
