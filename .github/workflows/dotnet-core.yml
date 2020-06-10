@@ -1,5 +1,7 @@
 name: .NET Core
-
+env:
+  ACRREGISTRY: 'openhackkl5492g1acr.azurecr.io'
+  APPNAME:  
 on:
   push:
     paths: 
@@ -54,23 +56,28 @@ jobs:
     
     - uses: azure/docker-login@v1
       with:
-        login-server: openhackn82382w0acr.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        login-server: $ACRREGISTRY
+        username: ${{ secrets.REGISTRY_USERNAME2 }}
+        password: ${{ secrets.REGISTRY_PASSWORD2 }}
       name: "docker login"
     
     - run: |
-        docker build . -t openhackn82382w0acr.azurecr.io/devopsoh/api-poi:${{ github.run_id }}
-        docker push openhackn82382w0acr.azurecr.io/devopsoh/api-poi:${{ github.run_id}} 
+        docker build . -t $ACRREGISTRY/devopsoh/api-poi:${{ github.run_id }}
+        docker push $ACRREGISTRY/devopsoh/api-poi:${{ github.run_id}} 
       name: "docker build and push"
       working-directory: 'apis/poi/web'
-      
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: openhackn82382w0poi
+        app-name: $APPNAME
         slot-name: staging
-        images: 'openhackn82382w0acr.azurecr.io/devopsoh/api-poi:${{ github.run_id }}'
-        publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+        images: '$ACRREGISTRY/devopsoh/api-poi:${{ github.run_id }}'
+    
       
 
