@@ -63,8 +63,8 @@ jobs:
       name: "docker login"
     
     - run: |
-        docker build . -t ${{env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
-        docker push ${{env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id}} 
+        docker build . -t ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
+        docker push ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id}} 
       name: "docker build and push"
       working-directory: 'apis/poi/web'
     
@@ -76,9 +76,9 @@ jobs:
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: ${{env.APPNAME}}
+        app-name: ${{ env.APPNAME}}
         slot-name: staging
-        images: '$ACRREGISTRY/devopsoh/api-poi:${{ github.run_id }}'
+        images: '${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}'
     
       
 
