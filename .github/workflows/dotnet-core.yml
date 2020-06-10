@@ -60,8 +60,8 @@ jobs:
       name: "docker login"
     
     - run: |
-        docker build . -t openhackn82382w0acr.azurecr.io/api-poi:${{ github.run_id }}
-        docker push openhackn82382w0acr.azurecr.io/api-poi:${{ github.run_id}} 
+        docker build . -t openhackn82382w0acr.azurecr.io/devopsoh/api-poi:${{ github.run_id }}
+        docker push openhackn82382w0acr.azurecr.io/devopsoh/api-poi:${{ github.run_id}} 
       name: "docker build and push"
       working-directory: 'apis/poi/web'
       
