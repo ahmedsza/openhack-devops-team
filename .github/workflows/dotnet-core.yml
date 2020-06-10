@@ -1,7 +1,7 @@
 name: .NET Core
 env:
-  ACRREGISTRY: 'openhackkl5492g1acr.azurecr.io'
-  APPNAME:  
+  ACRREGISTRY: openhackkl5492g1acr.azurecr.io
+  APPNAME:  openhackkl5492g1poi
 on:
   push:
     paths: 
@@ -52,18 +52,19 @@ jobs:
     - name: 'Checkout Github Action' 
       uses: actions/checkout@master
       
-    
+    - name: Hello world
+      run: echo Hello world {{env.ACRREGISTRY}} ${{env.APPNAME}}
     
     - uses: azure/docker-login@v1
       with:
-        login-server: $ACRREGISTRY
+        login-server: ${{env.ACRREGISTRY}}
         username: ${{ secrets.REGISTRY_USERNAME2 }}
         password: ${{ secrets.REGISTRY_PASSWORD2 }}
       name: "docker login"
     
     - run: |
-        docker build . -t $ACRREGISTRY/devopsoh/api-poi:${{ github.run_id }}
-        docker push $ACRREGISTRY/devopsoh/api-poi:${{ github.run_id}} 
+        docker build . -t ${{env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
+        docker push ${{env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id}} 
       name: "docker build and push"
       working-directory: 'apis/poi/web'
     
@@ -75,7 +76,7 @@ jobs:
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: $APPNAME
+        app-name: ${{env.APPNAME}}
         slot-name: staging
         images: '$ACRREGISTRY/devopsoh/api-poi:${{ github.run_id }}'
     
