@@ -17,4 +17,4 @@ jobs:
         if:  failure()
       
       - run: echo "API status true!"
-        if:  env.APISTATUS='true'
+        if:  env.APISTATUS == 'true'
