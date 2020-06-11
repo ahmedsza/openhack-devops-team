@@ -2,6 +2,8 @@ name: .NET Core
 env:
   ACRREGISTRY: openhackn82382w0acr.azurecr.io
   APPNAME:  openhackn82382w0poi
+  RGNAME: openhackn82382w0rg
+
 on:
   push:
     paths: 
@@ -95,8 +97,24 @@ jobs:
             wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/polling.sh
             bash polling.sh
        
-      - run: echo "I have file!"
-        if:  env.APISTATUS == 'true'
+      - run: echo "There is a problem"
+        if:  failure()
+      
+      - run: echo "All good"
+        if : env.APISTATUS == 'true'
+        
+  swap_slots:
+    runs-on: ubuntu-latest
+    name: "swap slots"
+    needs: [validate_web_app]
+    steps:    
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - run: az webapp deployment slot swap  -g ${{ env.RGNAME}}  -n ${{ env.APPNAME}}  --slot staging   --target-slot production 
+        
       
     
     
