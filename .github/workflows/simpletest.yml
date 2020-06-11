@@ -14,4 +14,4 @@ jobs:
             bash polling.sh
        
       - run: echo "I have file!"
-        if:  env.APISTATUS == 'true'
+        if:  failure()
