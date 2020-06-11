@@ -128,7 +128,7 @@ jobs:
     steps:
       - run: | 
             wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/pollingprod.sh
-            bash polling.sh
+            bash pollingprod.sh
        
       - run: echo "There is a problem in prod"
         if:  failure()
@@ -139,7 +139,7 @@ jobs:
   swap_slots_for_bad:
     runs-on: ubuntu-latest
     name: "swap slots for bad deploy"
-    needs: [validate_web_app]
+    needs: [validate_prod_web_app]
     if : failure()
     steps:    
       - name: 'Login via Azure CLI'
