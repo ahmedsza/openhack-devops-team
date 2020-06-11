@@ -1,0 +1,17 @@
+name: simpletes
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  validate_web_app:
+    runs-on: ubuntu-latest
+    name: "Validate All Working"
+    steps:
+      - run: | 
+            wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/polling.sh
+            bash polling.sh
+       
+      - run: echo "I have file!"
+        if:  env.APISTATUS == 'true'
