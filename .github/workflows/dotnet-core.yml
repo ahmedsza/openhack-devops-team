@@ -67,7 +67,13 @@ jobs:
         docker push ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id}} 
       name: "docker build and push"
       working-directory: 'apis/poi/web'
-    
+ 
+  release_to_web_app:
+    runs-on: ubuntu-latest
+    if:  github.ref == 'refs/heads/master' && github.event_name == 'push' 
+    needs: [build]
+    name: "deploy Azure Web App"
+    steps:
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
@@ -79,6 +85,20 @@ jobs:
         app-name: ${{ env.APPNAME}}
         slot-name: staging
         images: '${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}'
+        
+  validate_web_app:
+    runs-on: ubuntu-latest
+    name: "Validate All Working"
+    needs: [release_to_web_app]
+    steps:
+      - run: | 
+            wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/polling.sh
+            bash polling.sh
+       
+      - run: echo "I have file!"
+        if:  env.APISTATUS == 'true'
+      
+    
     
       
 
