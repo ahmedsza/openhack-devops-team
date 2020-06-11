@@ -32,7 +32,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore
       working-directory: apis/poi
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: | 
+        dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        dotnet tool install -g coveralls.net --version 1.0.0
+        smacnz.Coveralls.exe --opencover -i coverage.opencover.xml
       working-directory: apis/poi/tests/UnitTests
     
     - uses: actions/github-script@0.9.0
