@@ -44,8 +44,7 @@ jobs:
     # Path to lcov file
         path-to-lcov: apis/poi/tests/UnitTests/lcov/coverage.info
    # The root folder of the project that originally ran the tests
-        base-path:  apis/poi/tests/UnitTests
-        flag-name: Unit
+
     
     - uses: actions/github-script@0.9.0
       if: failure()
