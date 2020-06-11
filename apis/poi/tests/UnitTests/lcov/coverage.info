@@ -1,0 +1,175 @@
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Utility\HealthCheck.cs
+FN:9,System.Threading.Tasks.Task`1<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult> poi.Utility.HealthCheck::CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)
+FNDA:1,System.Threading.Tasks.Task`1<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult> poi.Utility.HealthCheck::CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)
+DA:10,1
+DA:11,1
+DA:13,1
+DA:14,1
+DA:16,0
+DA:17,1
+BRDA:13,6,0,1
+BRDA:13,6,1,0
+LF:6
+LH:5
+BRF:2
+BRH:1
+FNF:1
+FNH:1
+end_of_record
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Utility\POIConfiguration.cs
+FN:12,System.String poi.Utility.POIConfiguration::GetConnectionString(Microsoft.Extensions.Configuration.IConfiguration)
+FNDA:1,System.String poi.Utility.POIConfiguration::GetConnectionString(Microsoft.Extensions.Configuration.IConfiguration)
+DA:13,1
+DA:14,1
+DA:15,1
+DA:16,1
+DA:17,1
+DA:19,1
+DA:21,1
+DA:22,1
+DA:23,1
+DA:24,1
+DA:26,1
+DA:27,1
+FN:29,System.String poi.Utility.POIConfiguration::GetUri(Microsoft.Extensions.Configuration.IConfiguration)
+FNDA:2,System.String poi.Utility.POIConfiguration::GetUri(Microsoft.Extensions.Configuration.IConfiguration)
+DA:30,2
+DA:31,2
+DA:32,2
+DA:34,2
+DA:35,2
+BRDA:34,56,0,0
+BRDA:34,56,1,2
+BRDA:34,73,0,0
+BRDA:34,73,1,2
+LF:17
+LH:17
+BRF:4
+BRH:2
+FNF:2
+FNH:2
+end_of_record
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Models\BaseDataObject.cs
+FN:8,System.String poi.Models.BaseDataObject::get_Id()
+FNDA:32,System.String poi.Models.BaseDataObject::get_Id()
+DA:9,32
+FN:10,System.Void poi.Models.BaseDataObject::.ctor()
+FNDA:28,System.Void poi.Models.BaseDataObject::.ctor()
+DA:11,28
+DA:12,28
+DA:13,28
+DA:14,28
+LF:5
+LH:5
+BRF:0
+BRH:0
+FNF:2
+FNH:2
+end_of_record
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Models\POI.cs
+FN:16,System.String poi.Models.POI::get_TripId()
+FNDA:32,System.String poi.Models.POI::get_TripId()
+DA:17,32
+FN:17,System.Double poi.Models.POI::get_Latitude()
+FNDA:30,System.Double poi.Models.POI::get_Latitude()
+DA:18,30
+FN:18,System.Double poi.Models.POI::get_Longitude()
+FNDA:30,System.Double poi.Models.POI::get_Longitude()
+DA:19,30
+FN:19,poi.Models.POIType poi.Models.POI::get_PoiType()
+FNDA:26,poi.Models.POIType poi.Models.POI::get_PoiType()
+DA:20,26
+FN:20,System.DateTime poi.Models.POI::get_Timestamp()
+FNDA:26,System.DateTime poi.Models.POI::get_Timestamp()
+DA:21,26
+FN:21,System.Boolean poi.Models.POI::get_Deleted()
+FNDA:24,System.Boolean poi.Models.POI::get_Deleted()
+DA:22,24
+LF:6
+LH:6
+BRF:0
+BRH:0
+FNF:6
+FNH:6
+end_of_record
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Data\POIContext.cs
+FN:12,Microsoft.EntityFrameworkCore.DbSet`1<poi.Models.POI> poi.Data.POIContext::get_POIs()
+FNDA:32,Microsoft.EntityFrameworkCore.DbSet`1<poi.Models.POI> poi.Data.POIContext::get_POIs()
+DA:13,32
+FN:7,System.Void poi.Data.POIContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<poi.Data.POIContext>)
+FNDA:20,System.Void poi.Data.POIContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<poi.Data.POIContext>)
+DA:8,20
+DA:9,20
+DA:11,20
+LF:4
+LH:4
+BRF:0
+BRH:0
+FNF:2
+FNH:2
+end_of_record
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Controllers\POIController.cs
+FN:23,System.Collections.Generic.List`1<poi.Models.POI> poi.Controllers.POIController::GetAll()
+FNDA:1,System.Collections.Generic.List`1<poi.Models.POI> poi.Controllers.POIController::GetAll()
+DA:24,1
+DA:25,1
+DA:26,1
+FN:30,Microsoft.AspNetCore.Mvc.IActionResult poi.Controllers.POIController::GetById(System.String)
+FNDA:3,Microsoft.AspNetCore.Mvc.IActionResult poi.Controllers.POIController::GetById(System.String)
+DA:31,3
+DA:32,3
+DA:33,3
+DA:34,1
+DA:35,1
+DA:37,2
+DA:38,3
+BRDA:33,34,0,1
+BRDA:33,34,1,2
+FN:42,Microsoft.AspNetCore.Mvc.IActionResult poi.Controllers.POIController::GetByTripId(System.String)
+FNDA:6,Microsoft.AspNetCore.Mvc.IActionResult poi.Controllers.POIController::GetByTripId(System.String)
+DA:43,6
+DA:44,6
+DA:46,6
+DA:47,0
+DA:48,0
+DA:50,6
+DA:51,6
+BRDA:46,135,0,0
+BRDA:46,135,1,6
+FN:54,Microsoft.AspNetCore.Mvc.IActionResult poi.Controllers.POIController::CreatePoi(poi.Models.POI)
+FNDA:2,Microsoft.AspNetCore.Mvc.IActionResult poi.Controllers.POIController::CreatePoi(poi.Models.POI)
+DA:55,2
+DA:56,2
+DA:57,2
+DA:58,2
+DA:60,2
+DA:62,2
+FN:15,System.Void poi.Controllers.POIController::.ctor(poi.Data.POIContext)
+FNDA:10,System.Void poi.Controllers.POIController::.ctor(poi.Data.POIContext)
+DA:16,10
+DA:17,10
+DA:18,10
+DA:19,10
+LF:27
+LH:25
+BRF:4
+BRH:3
+FNF:5
+FNH:5
+end_of_record
+SF:C:\OpenHack\DevOps\openhack-devops-team\apis\poi\web\Controllers\VersionController.cs
+FN:14,System.String poi.Controllers.VersionController::GetVersion()
+FNDA:2,System.String poi.Controllers.VersionController::GetVersion()
+DA:15,2
+DA:16,2
+DA:17,2
+DA:18,2
+BRDA:17,14,0,1
+BRDA:17,14,1,2
+LF:4
+LH:4
+BRF:2
+BRH:2
+FNF:1
+FNH:1
+end_of_record
