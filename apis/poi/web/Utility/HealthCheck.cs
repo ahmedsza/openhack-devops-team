@@ -8,7 +8,7 @@ namespace poi.Utility
     {
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            var healthCheckResultHealthy = true; //TODO: implement a proper health check
+            var healthCheckResultHealthy = false; //TODO: implement a proper health check
 
             if (healthCheckResultHealthy)
                 return Task.FromResult(HealthCheckResult.Healthy("POI is healthy."));
