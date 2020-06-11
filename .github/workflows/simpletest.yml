@@ -15,3 +15,6 @@ jobs:
        
       - run: echo "I have file!"
         if:  failure()
+      
+      - run: echo "API status true!"
+        if:  env.APISTATUS='true'
