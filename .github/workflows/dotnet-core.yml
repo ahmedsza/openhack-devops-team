@@ -3,7 +3,7 @@ env:
   ACRREGISTRY: openhackn82382w0acr.azurecr.io
   APPNAME:  openhackn82382w0poi
   RGNAME: openhackn82382w0rg
-  COVERALLS_REPO_TOKEN: ${{ secrets.REGISTRY_PASSWORD }}
+  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALL }}
 
 on:
   push:
