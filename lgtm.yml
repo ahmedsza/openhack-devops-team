@@ -1,7 +1,4 @@
 extraction:
   csharp:
     index:
-      solution: apis/poi/poi.sln
-      msbuild:
-        configuration: release   
-        platform: x64
+      dotnet
