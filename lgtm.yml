@@ -1,5 +1,6 @@
 extraction:
   csharp:
     index:
-      dotnet: 3.1.201
       solution: apis/poi/web/poi.csproj
+      dotnet:
+        version: 3.1.201
