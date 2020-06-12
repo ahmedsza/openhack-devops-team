@@ -33,15 +33,19 @@ jobs:
       
     - name: Test
       run: | 
+        echo ${{ github.workspace }}
+        echo 'start test'	
         dotnet build 
         dotnet test --no-restore --verbosity normal /p:CollectCoverage=true  /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
         dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        cat coverage.opencover.xml
       working-directory: apis/poi/tests/UnitTests
       
     - name: Build
       run: |
-        dotnet tool install --global dotnet-sonarscanner --version 4.8.0
-        dotnet sonarscanner begin /k:nettest /o:ahmstestorg /d:sonar.login=${{ secrets.SONARKEY }} /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=/tests/UnitTests/coverage.opencover.xml
+        dotnet tool install --global dotnet-sonarscanner --version 4.8.0\
+        cat tests/UnitTests/coverage.opencover.xml
+        dotnet sonarscanner begin /k:nettest /o:ahmstestorg /d:sonar.login=${{ secrets.SONARKEY }} /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=tests/UnitTests/coverage.opencover.xml
         dotnet build --configuration Release --no-restore 
         dotnet sonarscanner end  /d:sonar.login=${{ secrets.SONARKEY }}
       working-directory: apis/poi
