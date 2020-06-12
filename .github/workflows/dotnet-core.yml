@@ -30,8 +30,13 @@ jobs:
       run: dotnet restore
       working-directory: apis/poi
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: |
+        dotnet tool install --global dotnet-sonarscanner --version 4.8.0
+        dotnet sonarscanner begin /k:nettest /o:ahmstestorg /d:sonar.login=${{ secrets.SONARKEY }} /d:sonar.host.url="https://sonarcloud.io"
+        dotnet build --configuration Release --no-restore
+        dotnet sonarscanner end  /d:sonar.login=${{ secrets.SONARKEY }}
       working-directory: apis/poi
+      
     - name: Test
       run: | 
         dotnet test --no-restore --verbosity normal /p:CollectCoverage=true  /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
