@@ -4,6 +4,7 @@ env:
   APPNAME:  openhackn82382w0poi
   RGNAME: openhackn82382w0rg
   COVERALLS_REPO_TOKEN: ${{ secrets.COVERALL }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 on:
   push:
@@ -29,18 +30,22 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
       working-directory: apis/poi
+      
+    - name: Test
+      run: | 
+        dotnet build 
+        dotnet test --no-restore --verbosity normal /p:CollectCoverage=true  /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
+      working-directory: apis/poi/tests/UnitTests
+      
     - name: Build
       run: |
         dotnet tool install --global dotnet-sonarscanner --version 4.8.0
         dotnet sonarscanner begin /k:nettest /o:ahmstestorg /d:sonar.login=${{ secrets.SONARKEY }} /d:sonar.host.url="https://sonarcloud.io"
-        dotnet build --configuration Release --no-restore
+        dotnet build --configuration Release --no-restore /d:sonar.javascript.lcov.reportPaths=apis/poi/tests/UnitTests/lcov/coverage.info
         dotnet sonarscanner end  /d:sonar.login=${{ secrets.SONARKEY }}
       working-directory: apis/poi
       
-    - name: Test
-      run: | 
-        dotnet test --no-restore --verbosity normal /p:CollectCoverage=true  /p:CoverletOutput=lcov/ /p:CoverletOutputFormat=lcov
-      working-directory: apis/poi/tests/UnitTests
+
     
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v1.1.1
