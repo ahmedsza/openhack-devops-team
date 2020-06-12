@@ -50,13 +50,13 @@ jobs:
         path-to-lcov: apis/poi/tests/UnitTests/lcov/coverage.info
    # The root folder of the project that originally ran the tests
 
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      with:
-       projectBaseDir: apis/poi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #  - name: SonarCloud Scan
+  #    uses: sonarsource/sonarcloud-github-action@master
+  #    with:
+  #     projectBaseDir: apis/poi
+  #    env:
+  #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
     - uses: actions/github-script@0.9.0
       if: failure()
