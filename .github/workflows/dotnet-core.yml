@@ -40,7 +40,7 @@ jobs:
     - name: Build
       run: |
         dotnet tool install --global dotnet-sonarscanner --version 4.8.0
-        dotnet sonarscanner begin /k:nettest /o:ahmstestorg /d:sonar.login=${{ secrets.SONARKEY }} /d:sonar.host.url="https://sonarcloud.io" /d:sonar.javascript.lcov.reportPaths=tests/UnitTests/lcov/coverage.info
+        dotnet sonarscanner begin /k:nettest /o:ahmstestorg /d:sonar.login=${{ secrets.SONARKEY }} /d:sonar.host.url="https://sonarcloud.io" /d:sonar.javascript.lcov.reportPaths=/tests/UnitTests/lcov/coverage.info
         dotnet build --configuration Release --no-restore 
         dotnet sonarscanner end  /d:sonar.login=${{ secrets.SONARKEY }}
       working-directory: apis/poi
