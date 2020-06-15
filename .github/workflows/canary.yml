@@ -1,0 +1,64 @@
+name: Canary
+env:
+  ACRREGISTRY: openhackn82382w0acr.azurecr.io
+  APPNAME:  openhackn82382w0poi
+  RGNAME: openhackn82382w0rg
+  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALL }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+on:
+  issues:
+
+
+jobs:
+  deploytoprod:
+    if: github.event.label.name == 'canary'
+    name: "deploy to canary"
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+  
+  Deploy50:
+    runs-on: ubuntu-latest
+    name: "Deploy 10%"
+    needs: [deploytoprod]
+    steps:    
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - run: az webapp traffic-routing set --distribution staging=50 --name ${{ env.APPNAME}} --resource-group ${{ env.RGNAME}} 
+    
+  validate_50:
+    runs-on: ubuntu-latest
+    name: "Validate All Working In Prod"
+    needs: [Deploy50]
+    steps:
+      - run: | 
+            wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/pollingprod.sh
+            bash pollingprod.sh
+       
+      - run: echo "There is a problem in prod"
+        if:  failure()
+      
+      - run: echo "All good"
+        if : env.APIPRODSTATUS == 'true'
+        
+  clear_it:
+    runs-on: ubuntu-latest
+    name: "swap slots for bad deploy"
+    needs: [validate_50]
+    if : failure()
+    steps:    
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - run: az webapp deployment slot swap   az webapp traffic-routing clear --name ${{ env.APPNAME}}  --resource-group ${{ env.RGNAME}}  
+
+    
+      
