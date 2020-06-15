@@ -20,7 +20,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
   
-  Deploy50:
+  
+  Deploy10:
     runs-on: ubuntu-latest
     name: "Deploy 10%"
     needs: [deploytoprod]
@@ -32,9 +33,64 @@ jobs:
       
       - run: az webapp traffic-routing set --distribution staging=50 --name ${{ env.APPNAME}} --resource-group ${{ env.RGNAME}} 
     
+  validate_10:
+    runs-on: ubuntu-latest
+    name: "Validate All Working In 10%"
+    needs: [Deploy10]
+    steps:
+      - run: | 
+            wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/pollingprod.sh
+            bash pollingprod.sh
+       
+      - run: echo "There is a problem in prod"
+        if:  failure()
+      
+      - run: echo "All good"
+        if : env.APIPRODSTATUS == 'true'
+  
+      - uses: actions/github-script@0.9.0
+        if: failure()
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let body = "${{ env.build_name }} Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+            github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed with Canary! ",
+              body: body
+            });
+            
+  clear_it_10:
+    runs-on: ubuntu-latest
+    name: "clear 10% on failure"
+    needs: [validate_50]
+    if : failure()
+    steps:    
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - run: az webapp deployment slot swap   az webapp traffic-routing clear --name ${{ env.APPNAME}}  --resource-group ${{ env.RGNAME}}  
+  
+  Deploy50:
+    runs-on: ubuntu-latest
+    
+    name: "Deploy 50%"
+    needs: [validate_10]
+    if: success()
+    steps:    
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - run: az webapp traffic-routing set --distribution staging=50 --name ${{ env.APPNAME}} --resource-group ${{ env.RGNAME}} 
+    
   validate_50:
     runs-on: ubuntu-latest
-    name: "Validate All Working In Prod"
+    name: "Validate 50"
     needs: [Deploy50]
     steps:
       - run: | 
@@ -46,10 +102,23 @@ jobs:
       
       - run: echo "All good"
         if : env.APIPRODSTATUS == 'true'
-        
-  clear_it:
+  
+      - uses: actions/github-script@0.9.0
+        if: failure()
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let body = "${{ env.build_name }} Worflow Failure \n Build Number: ${{ github.run_number }} \n Build Log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \n SHA: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) \n";
+            github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "${{ env.build_name }} Workflow ${{ github.run_number }} Failed with Canary! ",
+              body: body
+            });
+            
+  clear_it_50:
     runs-on: ubuntu-latest
-    name: "swap slots for bad deploy"
+    name: "clear 50"
     needs: [validate_50]
     if : failure()
     steps:    
