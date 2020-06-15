@@ -109,7 +109,7 @@ jobs:
   release_to_web_app:
     runs-on: ubuntu-latest
     if:  github.ref == 'refs/heads/master' && github.event_name == 'push' 
-    needs: [build]
+    needs: [release]
     name: "deploy Azure Web App"
     steps:
     - name: 'Login via Azure CLI'
@@ -151,45 +151,7 @@ jobs:
               body: body
             });
                  
-  swap_slots:
-    runs-on: ubuntu-latest
-    name: "swap slots"
-    needs: [validate_web_app]
-    steps:    
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      - run: az webapp deployment slot swap  -g ${{ env.RGNAME}}  -n ${{ env.APPNAME}}  --slot staging   --target-slot production 
-        
-  validate_prod_web_app:
-    runs-on: ubuntu-latest
-    name: "Validate All Working In Prod"
-    needs: [swap_slots]
-    steps:
-      - run: | 
-            wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/pollingprod.sh
-            bash pollingprod.sh
-       
-      - run: echo "There is a problem in prod"
-        if:  failure()
-      
-      - run: echo "All good"
-        if : env.APIPRODSTATUS == 'true'
-        
-  swap_slots_for_bad:
-    runs-on: ubuntu-latest
-    name: "swap slots for bad deploy"
-    needs: [validate_prod_web_app]
-    if : failure()
-    steps:    
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      - run: az webapp deployment slot swap  -g ${{ env.RGNAME}}  -n ${{ env.APPNAME}}  --slot staging   --target-slot production 
+
       
     
     
