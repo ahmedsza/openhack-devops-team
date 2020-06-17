@@ -17,6 +17,7 @@ jobs:
 
  
   release_to_web_app:
+    if: github.event.label.name == 'staging'
     runs-on: ubuntu-latest
     name: "deploy Azure Web App"
     steps:
@@ -25,7 +26,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
   
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
+    - name: 'Deploy azure web app'
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.APPNAME}}
