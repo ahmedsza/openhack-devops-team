@@ -102,10 +102,18 @@ jobs:
     
     - run: |
         docker build . -t ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
-        docker push ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id}} 
-      name: "docker build and push"
+      name: "docker build"
       working-directory: 'apis/poi/web'
-      
+    
+    - run: |
+        docker push ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id}} 
+      name: "docker push"
+      working-directory: 'apis/poi/web'
+    
+    - uses: Azure/container-scan@v0
+      with:
+        image-name: ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
+    
     - uses: actions/github-script@0.9.0
       with:
          github-token: ${{secrets.GITHUB_TOKEN}}
