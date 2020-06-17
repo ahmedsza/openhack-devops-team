@@ -1,1 +1,1 @@
-{"event_type": "do-something"}
+{"event_type": "do-something", "client_payload": { "text": "a title"}}
