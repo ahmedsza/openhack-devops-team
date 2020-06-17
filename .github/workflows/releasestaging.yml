@@ -1,0 +1,49 @@
+name:  Release staging for .NET Core
+env:
+  ACRREGISTRY: openhackn82382w0acr.azurecr.io
+  APPNAME:  openhackn82382w0poi
+  RGNAME: openhackn82382w0rg
+  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALL }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+on:
+  issues:
+
+
+jobs:
+   
+
+        
+
+ 
+  release_to_web_app:
+    runs-on: ubuntu-latest
+    name: "deploy Azure Web App"
+    steps:
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.APPNAME}}
+        slot-name: staging
+        images: '${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.event.issue.title }}'
+        
+  validate_web_app:
+    runs-on: ubuntu-latest
+    name: "Validate All Working"
+    needs: [release_to_web_app]
+    steps:
+      - run: | 
+            wget https://raw.githubusercontent.com/ahmedsza/ohdevops/master/polling.sh
+            bash polling.sh
+       
+      - run: echo "There is a problem"
+        if:  failure()
+      
+      - run: echo "All good"
+        if : env.APISTATUS == 'true'
+
