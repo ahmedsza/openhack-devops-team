@@ -110,9 +110,9 @@ jobs:
       name: "docker push"
       working-directory: 'apis/poi/web'
     
-    - uses: Azure/container-scan@v0
-      with:
-        image-name: ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
+  #  - uses: Azure/container-scan@v0
+  #    with:
+  #      image-name: ${{ env.ACRREGISTRY}}/devopsoh/api-poi:${{ github.run_id }}
     
     - uses: actions/github-script@0.9.0
       with:
